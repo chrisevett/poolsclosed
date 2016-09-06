@@ -1,0 +1,16 @@
+--- 
+  rundeck_url: "<myRundeckUrl>"
+#  real job ids
+#  create_job_uuid: c7235fa9-fd80-425f-8207-c92988a01da8
+#  delete_job_uuid: 6f1b644f-8c67-487c-9cef-2dd3de5f2dfc
+#  fake job ids
+  create_job_uuid: f0eb6497-c5a9-4a35-98f7-eb88d068c606 
+  delete_job_uuid: 23f07c7f-4d52-4016-b092-c4126fda3691
+  # quarantine job id
+#  create_job_uuid: 4583bac8-230e-483b-8c4c-1bf84ffae008 
+#  delete_job_uuid: 4583bac8-230e-483b-8c4c-1bf84ffae008
+  api_token: CMXcCZ6EBbLuX564e6vb5XFlFAHu1RTt
+  environment: development
+  sinatra_port: 42069
+  pool_size: 3
+  quarantine_limit: 2

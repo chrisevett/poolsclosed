@@ -1,0 +1,55 @@
+# vi: set ft=ruby :
+#!/usr/bin/env ruby
+# $LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + './lib')
+require 'json'
+require 'sinatra'
+require 'systemd/journal'
+require 'pry-byebug'
+
+require 'poolsclosed'
+include PoolsClosed 
+
+INFO = Systemd::Journal::LOG_INFO
+ERR  = Systemd::Journal::LOG_ERR
+
+Systemd::Journal.print(INFO, 'starting poolsclosed')
+
+#todo: load config file here 
+begin
+  cnf = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
+rescue Exception => ex
+  Systemd::Journal.print(ERR, 'Failed to load config.yml')
+  exit -1
+end
+    
+machines = Machines.new(cnf)
+runner = PoolsClosed::Runner.new(cnf,machines)
+
+binding.pry    
+  set :port, cnf['sinatra_port']
+  set :environment, cnf['environment']
+      # poll = Poller.new(cnf, machines)
+get '/machine' do
+  response = {}
+  response[:machineRelease] = machines.yield
+  response.to_json
+end
+
+delete '/machine' do
+  params['machineName']
+  response = {}
+  response[:machineDelete] = machines.delete(params['machineName'])
+  response.to_json
+end
+
+get '/status' do
+  response = {}
+  response[:status] = machines.last_error
+  response.to_json
+end
+
+get '/quarantines' do
+  response = {}
+  response[:quarantines] = machines.quarantine_count 
+  response.to_json
+end
