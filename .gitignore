@@ -9,3 +9,4 @@
 /tmp/
 .kitchen/
 .kitchen.local.yml
+config.yml.bak
