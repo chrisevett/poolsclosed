@@ -11,7 +11,6 @@ module PoolsClosed
         exit(-1)
       end
 
-      machines = Machines.new(cnf)
       Poller.new(cnf, machines)
     end
   end

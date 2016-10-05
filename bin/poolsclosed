@@ -1,15 +1,10 @@
 # vi: set ft=ruby :
-#  $LOAD_PATH.unshift(File.dirname(File.realpath(__FILE__)) + './lib')
 require 'json'
 require 'sinatra'
 require 'systemd/journal'
 require 'pry-byebug'
 
-# this is our file poolsclosed.rb
 require 'poolsclosed'
-
-# this is the namespace
-# include PoolsClosed
 
 INFO = Systemd::Journal::LOG_INFO
 ERR  = Systemd::Journal::LOG_ERR
