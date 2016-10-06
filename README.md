@@ -53,6 +53,21 @@ GET /quarantines
 ### Quarantines
 If there is a failure creating or deleting a machine, poolsclosed will list it as a "quarantine". If the maximum number of quarantines is reached then it will stop creating new machines.   
 
+## Using With Docker
+Running poolsclosed in a Docker container is probably the easiest way to get started:
+```
+mkdir docker-poolsclosed
+cd docker-poolsclosed
+wget https://raw.githubusercontent.com/chrisevett/poolsclosed/master/Dockerfile
+wget https://raw.githubusercontent.com/chrisevett/poolsclosed/master/config.yml
+# edit config file as needed
+vim config.yml
+# build the image and give it a tag name, build takes about 5 minutes the first run
+docker build . -t pools_open_yo
+# run exposing the sinatra web port defined in config.yml
+docker run -p 42069:42069 pools_open_yo
+```
+
 ### Note about resetting failed instances 
 Until I can add more features, clearing out quarantines will require the user to manually go into redis and delete the records. I think this is acceptable at the moment because removing 'quarantined' machines will also take lots of manual intervention.   
 
