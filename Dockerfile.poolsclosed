@@ -1,0 +1,19 @@
+FROM ruby:2.3
+MAINTAINER "chris evett" <chris.evett@gmail.com>
+
+RUN git clone https://github.com/chrisevett/poolsclosed.git /opt/poolsclosed
+RUN ls -al /opt/poolsclosed
+
+RUN bundle install --gemfile=/opt/poolsclosed/Gemfile
+
+RUN echo "#!/usr/bin/env bash" >> /opt/startup.sh
+RUN echo "pushd /opt/poolsclosed" >> /opt/startup.sh
+RUN echo "ruby -Ilib bin/poolsclosed" >> /opt/startup.sh
+RUN chmod +x /opt/startup.sh
+
+EXPOSE 42069
+
+WORKDIR "/data"
+COPY config.yml /opt/poolsclosed/config.yml
+WORKDIR "/opt/poolsclosed"
+CMD ["/opt/startup.sh"]

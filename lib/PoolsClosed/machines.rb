@@ -12,7 +12,8 @@ module PoolsClosed
 
     def initialize(cnf)
       @cnf = cnf
-      @redis = Redis.new(host: 'localhost', port: 6379)
+      #@redis = Redis.new(host: 'localhost', port: 6379)
+      @redis = Redis.new(host: 'poolsclosed/redis', port: 6379)
       @jobs =  PoolsClosed::Jobs.new(cnf)
     end
 
