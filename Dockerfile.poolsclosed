@@ -5,6 +5,8 @@ RUN ls -al /opt/poolsclosed
 
 RUN bundle install --gemfile=/opt/poolsclosed/Gemfile
 
+RUN gem install rspec
+
 RUN echo "#!/usr/bin/env bash" >> /opt/startup.sh
 RUN echo "pushd /opt/poolsclosed" >> /opt/startup.sh
 RUN echo "ruby -Ilib bin/poolsclosed" >> /opt/startup.sh

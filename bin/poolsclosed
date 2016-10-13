@@ -19,7 +19,7 @@ rescue StandardError
 end
 
 machines = PoolsClosed::Machines.new(cnf)
-PoolsClosed::Runner.new(cnf, machines)
+PoolsClosed::Poller.new(cnf, machines)
 
 set :port, cnf['sinatra_port']
 set :environment, cnf['environment']
