@@ -1,17 +1,22 @@
 version: '2'
 services:
   app:
-    image: poolsclosed
+    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.poolsclosed
+    image: chrisevett/poolsclosed
     links:
       # this is in the form service:alias 
       - redis:compose_redis
     ports: 
       - "42069:42069"
   redis:
-    image: poolsclosed/redis
-    # thinking this isn't necessary
-    # ports: 
-    # - "6379:6379"
+    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile.redis
+    image: chrisevett/redis
     volumes: 
      - redisvolume:/data
 volumes:

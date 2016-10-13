@@ -1,0 +1,19 @@
+env:
+  DOCKER_COMPOSE_VERSION: 1.8.0
+
+language: ruby
+
+rvm:
+  - 2.3.1
+  - ruby-head
+
+sudo: required 
+services: 
+  -  docker
+
+
+before_install: 
+  -  apt-get update
+  -  apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
+  -  docker-compose rm -f
+  -  docker-compose up --build 
