@@ -6,6 +6,18 @@ Simple sinatra app that manages a pool of machines via rundeck
 ## Usage
 
 ### Installing
+
+#### Using With Docker-Compose
+Running poolsclosed in a Docker container is probably the easiest way to get started:
+```
+# clone the repo
+# edit config file as needed
+vim config.yml
+# docker-compose up 
+docker-compose up --build
+```
+
+#### Running locally
 Until I push this to rubygems, clone the repo, install redis, and then  
 ```ruby -Ilib bin/poolsclosed``` 
 
@@ -59,11 +71,8 @@ Running poolsclosed in a Docker container is probably the easiest way to get sta
 # clone the repo
 # edit config file as needed
 vim config.yml
-# build the images and tag them 
-docker build -t poolsclosed -f Dockerfile.poolsclosed .
-docker build -t poolsclosed/redis -f Dockerfile.redis .
-# docker-compose up and enjoy
-docker-compose up
+# docker-compose up 
+docker-compose up --build
 ```
 
 ### Note about resetting failed instances 
@@ -78,7 +87,6 @@ Pull requests welcome. If there is a feature you want to see open an issue.
 
 ## Todo 
 Push this to rubygems  
-Docker  
 Make a test-kitchen plugin to call this service.  
 Add alerting for quarantines via email or a chat plugin.    
 
