@@ -1,11 +1,10 @@
 require 'celluloid'
 
 module PoolsClosed
-
   # starts a thread which will poll redis for an instance count
   class Poller
     attr_reader :thread
-  
+
     def initialize(cnf, machines)
       @cnf = cnf
       @machines = machines
@@ -18,7 +17,7 @@ module PoolsClosed
     def pool_loop
       loop do
         pool_check
-      sleep 5
+        sleep 5
       end
     end
 
@@ -29,6 +28,5 @@ module PoolsClosed
         @machines.error('Quarantine count is over the limit')
       end
     end
-
   end
 end

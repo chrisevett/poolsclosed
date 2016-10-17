@@ -1,10 +1,11 @@
+# rubocop:disable Metrics/LineLength
 require 'spec_helper'
 require 'pry-byebug'
 require 'mock_redis'
 
 describe PoolsClosed::Machines do
   def machines
-    @machines ||= PoolsClosed::Machines.new($cnf)
+    @machines ||= PoolsClosed::Machines.new(@cnf)
   end
 
   # note, stubs in before(:all) get wiped out after the first time

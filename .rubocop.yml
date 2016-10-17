@@ -1,0 +1,4 @@
+AllCops:
+  Exclude:
+    - poolsclosed.gemspec
+  DisplayCopNames: true

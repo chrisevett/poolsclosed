@@ -17,7 +17,6 @@ module PoolsClosed
       wait_for_rundeck(delete_exec, name)
     end
 
-
     def create_exec(name)
       url = ["#{@cnf['rundeck_url']}api/12/job/",
              "#{@cnf['create_job_uuid']}/executions"].join('')
@@ -47,11 +46,11 @@ module PoolsClosed
       until execution_status != 'running'
         sleep 10
         response = rundeck_call(:get, url, nil)
-        execution_status = parse_status(response) 
+        execution_status = parse_status(response)
       end
       execution_status
     end
-    
+
     def parse_status(xml)
       Nokogiri::XML(xml[1]).xpath('//execution/@status')[0].value
     end
