@@ -10,9 +10,10 @@ module PoolsClosed
     RLSD     = 'poolsclosed_releasedmachines'.freeze
     ERR      = 'poolsclosed_lasterror'.freeze
 
+    attr_reader :jobs
+
     def initialize(cnf)
       @cnf = cnf
-      #@redis = Redis.new(host: 'localhost', port: 6379)
       @redis = Redis.new(host: 'compose_redis', port: 6379)
       @jobs =  PoolsClosed::Jobs.new(cnf)
     end
@@ -37,7 +38,7 @@ module PoolsClosed
       return unless name
 
       @redis.sadd(RLSD, name)
-      @redis.spop(AVAIL)
+      name
     end
 
     def delete(box_name)

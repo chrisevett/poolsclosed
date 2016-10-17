@@ -16,4 +16,4 @@ before_install:
   -  sudo apt-get update
   -  sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
   -  sudo docker-compose rm -f
-  -  sudo docker-compose up --build 
+  -  sudo docker-compose build 

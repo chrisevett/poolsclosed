@@ -17,7 +17,6 @@ module PoolsClosed
       wait_for_rundeck(delete_exec, name)
     end
 
-    private
 
     def create_exec(name)
       url = ["#{@cnf['rundeck_url']}api/12/job/",
@@ -35,8 +34,11 @@ module PoolsClosed
       response = rundeck_call(:post,
                               url,
                               argString: "-machineName #{name}")
+      parse_id(response)
+    end
 
-      Nokogiri::XML(response[1]).xpath('//execution/@id')[0].value
+    def parse_id(xml)
+      Nokogiri::XML(xml[1]).xpath('//execution/@id')[0].value
     end
 
     def wait_for_rundeck(execution_id)
@@ -45,11 +47,13 @@ module PoolsClosed
       until execution_status != 'running'
         sleep 10
         response = rundeck_call(:get, url, nil)
-        doc = Nokogiri::XML(response[1])
-        execution_node = doc.xpath('//execution/@status')
-        execution_status = execution_node[0].value
+        execution_status = parse_status(response) 
       end
       execution_status
+    end
+    
+    def parse_status(xml)
+      Nokogiri::XML(xml[1]).xpath('//execution/@status')[0].value
     end
 
     # rubocop:disable MethodLength, LineLength
