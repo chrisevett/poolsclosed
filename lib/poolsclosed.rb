@@ -1,3 +1,4 @@
-require 'PoolsClosed/jobs'
-require 'PoolsClosed/machines'
-require 'PoolsClosed/poll'
+require 'poolsclosed/jobs'
+require 'poolsclosed/machines'
+require 'poolsclosed/poll'
+require 'poolsclosed/version'
