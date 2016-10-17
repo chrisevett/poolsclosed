@@ -1,9 +1,15 @@
-FROM ruby:2.3
+FROM ruby:2.3 
 MAINTAINER "chris evett" <chris.evett@gmail.com>
 COPY . /opt/poolsclosed/
 RUN ls -al /opt/poolsclosed
 
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+RUN apt-get install libsystemd-journal-dev -y
+                  
+
 RUN bundle install --gemfile=/opt/poolsclosed/Gemfile
+
+
 
 RUN gem install rspec
 
