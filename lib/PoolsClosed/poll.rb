@@ -8,7 +8,7 @@ module PoolsClosed
     def initialize(cnf, machines)
       @cnf = cnf
       @machines = machines
-      Systemd::Journal.print(INFO, 'poll starting')
+      puts('poll starting')
       @thread = Thread.new { pool_loop }
       sleep 1
     end

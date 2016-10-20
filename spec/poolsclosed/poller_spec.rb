@@ -4,7 +4,6 @@ require 'systemd/journal'
 
 describe 'Poller' do
   before(:each) do
-    Systemd::Journal.stub(:print).with(any_args).and_return('')
     stub_const('INFO', 'wat')
     @machines = PoolsClosed::Machines.new(@cnf)
     @poller = PoolsClosed::Poller.new(@cnf, @machines)

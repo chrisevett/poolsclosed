@@ -1,20 +1,16 @@
 # vi: set ft=ruby :
 require 'json'
 require 'sinatra'
-require 'systemd/journal'
 require 'pry-byebug'
 
 require 'poolsclosed'
 
-INFO = Systemd::Journal::LOG_INFO
-ERR  = Systemd::Journal::LOG_ERR
-
-Systemd::Journal.print(INFO, 'starting poolsclosed')
+puts('starting poolsclosed')
 
 begin
   cnf = YAML.load_file(File.join(File.dirname(__FILE__), '../config.yml'))
 rescue StandardError
-  Systemd::Journal.print(ERR, 'Failed to load config.yml')
+  puts ('Failed to load config.yml')
   exit(-1)
 end
 

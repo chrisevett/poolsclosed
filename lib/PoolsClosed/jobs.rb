@@ -45,6 +45,7 @@ module PoolsClosed
       url = "#{@cnf['rundeck_url']}api/1/execution/#{execution_id}"
       until execution_status != 'running'
         sleep 10
+        binding.pry
         response = rundeck_call(:get, url, nil)
         execution_status = parse_status(response)
       end
@@ -62,14 +63,18 @@ module PoolsClosed
                               payload: payload,
                               headers: { content_type: :json,
                                          'X-Rundeck-Auth-Token' =>
-                                         @cnf['api_token'] }).execute do |rsp, _request, _result|
+                                        @cnf['api_token'] }).execute do |rsp, _request, _result|
         case rsp.code
         when 200
           [:success, rsp.to_str]
         else
-          raise "Error, received response #{rsp.to_str}"
+          puts "error contacting rundeck. Received response #{rsp.to_str}"
         end
       end
+    rescue StandardError => e
+      puts 'error hitting rundeck'
+      puts e.message
+      return -1
     end
     # rubocop:enable MethodLength, LineLength
   end
