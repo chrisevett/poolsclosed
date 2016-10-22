@@ -45,6 +45,7 @@ module PoolsClosed
       url = "#{@cnf['rundeck_url']}api/1/execution/#{execution_id}"
       until execution_status != 'running'
         sleep 10
+        binding.pry
         response = rundeck_call(:get, url, nil)
         execution_status = parse_status(response)
       end
