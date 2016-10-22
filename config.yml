@@ -1,16 +1,22 @@
 --- 
-  # base url of the rundeck instance. Normally this is the endpoint where you log into the gui
-  rundeck_url: "http://my.rundeckinstance.com:4440/"
-  #  job Ids for creating and deleting a vm 
-  create_job_uuid: c7235fa9-fd80-425f-8207-c92988a01da8
-  delete_job_uuid: 6f1b644f-8c67-487c-9cef-2dd3de5f2dfc
-  # rundeck API token
-  api_token: mysecretapitoken12lk3j12 
-  # sinatra environment. Right now this doesn't do anything
+  # endpoint for the rundeck instance
+  rundeck_url: "http://10.119.125.227:4440/"
+  # rundeck api token
+  api_token: CMXcCZ6EBbLuX564e6vb5XFlFAHu1RTt
+  # rundeck job creation id. We require the job to take the argument -machineName 
+  # and name the box accordingly
+  create_job_uuid: f0eb6497-c5a9-4a35-98f7-eb88d068c606
+  # rundeck job deletion id. This also requires the -machineName argument
+  delete_job_uuid: f0eb6497-c5a9-4a35-98f7-eb88d068c606
+  # redis machine name. Use the default port 6379. docker-compose will 
+  # alias its container as 'compose_redis'
+  redis_endpoint: compose_redis 
+  # sinatra config we aren't using atm
   environment: development
-  # port for sinatra endpoint
+  # port for poolsclosed api
   sinatra_port: 42069
-  # number of machines you want to have in the pool
+  # number of machines to maintain
   pool_size: 3
-  # number of quarantines after which we will stop creating new machines
+  # number of failures we tolerate before we stop calling the rundeck create job
+  # this is intended to require manual intervention for now
   quarantine_limit: 2
