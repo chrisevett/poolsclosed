@@ -14,7 +14,7 @@ module PoolsClosed
     end
 
     def delete_machine(name)
-      wait_for_rundeck(delete_exec, name)
+      wait_for_rundeck(delete_exec(name))
     end
 
     def create_exec(name)
