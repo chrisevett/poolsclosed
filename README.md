@@ -18,12 +18,9 @@ vim config.yml
 docker-compose up --build
 ```
 
-#### Running locally
-Until I push this to rubygems, clone the repo, install redis, and then  
+#### Running locally without docker
+Clone the repo, install redis, and then  
 ```ruby -Ilib bin/poolsclosed``` 
-
-Once I push this to rubygems:  
-```gem install poolsclosed```
 
 ### Configuration
 In config.yml:   
@@ -36,6 +33,7 @@ environment: sinatra environment parameter. This isn't used currently, so just l
 sinatra_port: port you want the sinatra instance to listen on 
 pool_size: number of VM's you want to have active at once
 quarantine_limit: number of failures tolerated before no more vm's are created
+redis_endpoint: redis machine name. use the default port 6379 
 ```    
       
 ### Endpoints
@@ -87,8 +85,8 @@ I wrote this originally so I could do TDD with chef cookbooks on windows environ
 Pull requests welcome. If there is a feature you want to see open an issue.  
 
 ## Todo 
-Push this to rubygems  
 Make a test-kitchen plugin to call this service.  
+Publish to docker hub  
 Add alerting for quarantines via email or a chat plugin.    
 
 ## License
