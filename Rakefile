@@ -1,19 +1,13 @@
-begin
-  require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new(:spec)
-end
+require 'rubocop/rake_task'
 
-begin
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new(:style) do |task|
-    task.options += ['--display-cop-names', '--no-color']
-  end
-rescue LoadError
-  puts 'rubocop is not available'
-end
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 
-desc 'Run quality checks'
-task test: [:spec, :style]
+desc 'run rubocop'
+RuboCop::RakeTask.new(:rubocop)
+
+# i did this because it had trouble loading gems using the actual task
+desc 'rspec'
+task(:spec) { ruby '-S rspec' }
 
 desc 'default'
-task default: [:test]
+task default: [:rubocop, :spec]

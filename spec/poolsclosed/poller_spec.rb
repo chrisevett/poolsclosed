@@ -1,10 +1,8 @@
 # rubocop:disable Metrics/LineLength
 require 'spec_helper'
-require 'systemd/journal'
 
 describe 'Poller' do
   before(:each) do
-    stub_const('INFO', 'wat')
     @machines = PoolsClosed::Machines.new(@cnf)
     @poller = PoolsClosed::Poller.new(@cnf, @machines)
     allow_any_instance_of(PoolsClosed::Machines).to receive(:add)

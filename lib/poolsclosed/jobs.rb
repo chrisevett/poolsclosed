@@ -14,7 +14,7 @@ module PoolsClosed
     end
 
     def delete_machine(name)
-      wait_for_rundeck(delete_exec, name)
+      wait_for_rundeck(delete_exec(name))
     end
 
     def create_exec(name)
@@ -45,7 +45,6 @@ module PoolsClosed
       url = "#{@cnf['rundeck_url']}api/1/execution/#{execution_id}"
       until execution_status != 'running'
         sleep 10
-        binding.pry
         response = rundeck_call(:get, url, nil)
         execution_status = parse_status(response)
       end
