@@ -19,6 +19,8 @@ services:
     image: chrisevett/redis
     volumes: 
      - redisvolume:/data
+    ports: 
+      - "6379:6379"
 volumes:
   redisvolume:
     driver: local
