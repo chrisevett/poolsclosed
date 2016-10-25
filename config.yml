@@ -1,13 +1,15 @@
 --- 
   # endpoint for the rundeck instance
-  rundeck_url: "http://10.119.125.227:4440/"
+  # this isn't validated. make sure there is a trailing slash.
+  # theres an issue open to fix this.
+  rundeck_url: "http://my.fake.rundeck/"
   # rundeck api token
-  api_token: CMXcCZ6EBbLuX564e6vb5XFlFAHu1RTt
+  api_token: CMXcCZ6EFAKEBbLuX5FAKE64e6vb5XFlFAHu1RTt
   # rundeck job creation id. We require the job to take the argument -machineName 
   # and name the box accordingly
-  create_job_uuid: f0eb6497-c5a9-4a35-98f7-eb88d068c606
+  create_job_uuid: f0eb6497-c5a9FAKE-4a35-98f7FAKE-eb88d068c606
   # rundeck job deletion id. This also requires the -machineName argument
-  delete_job_uuid: f0eb6497-c5a9-4a35-98f7-eb88d068c606
+  delete_job_uuid: f0eb6FAKE497-c5a9-4a35FAKE-98f7-eb88d068c606
   # redis machine name. Use the default port 6379. docker-compose will 
   # alias its container as 'compose_redis'
   redis_endpoint: compose_redis 
