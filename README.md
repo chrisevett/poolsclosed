@@ -1,4 +1,5 @@
 [![Build Status Master](https://travis-ci.org/chrisevett/poolsclosed.svg?branch=master)](https://travis-ci.org/chef/chef)
+[![Join the chat at https://gitter.im/poolsclosed/Lobby](https://badges.gitter.im/poolsclosed/Lobby.svg)](https://gitter.im/poolsclosed/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 # poolsclosed
 Simple sinatra app that manages a pool of machines via rundeck
 
