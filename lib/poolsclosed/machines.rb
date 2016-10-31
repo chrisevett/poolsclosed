@@ -9,6 +9,8 @@ module PoolsClosed
     AVAIL    = 'poolsclosed_availmachines'.freeze
     RLSD     = 'poolsclosed_releasedmachines'.freeze
     ERR      = 'poolsclosed_lasterror'.freeze
+    PDLT     = 'poolsclosed_deletepending'.freeze
+    DLTD     = 'poolsclosed_deleted'.freeze
 
     attr_reader :jobs
 
@@ -22,7 +24,11 @@ module PoolsClosed
       @redis.smembers(QTINE).count
     end
 
-    def add
+    def pending_deletions
+      @redis.smembers(PDLT).count
+    end
+
+    def add!
       name = generate_machinename
       if @jobs.create_machine(name) != 'succeeded'
         @redis.sadd(QTINE, name)
@@ -31,26 +37,30 @@ module PoolsClosed
       end
     end
 
-    def yield
+    def yield!
       # we will return nil if the cache is empty which i think
       # its ok to let the client handle
       name = @redis.spop(AVAIL)
       return unless name
-
       @redis.sadd(RLSD, name)
       name
     end
 
-    def delete(box_name)
-      return if @jobs.delete_machine(box_name) == 'succeeded'
-      @redis.sadd(QTINE, box_name)
+    def queue_delete!(box_name)
+      @redis.srem(RLSD, box_name)
+      @redis.sadd(PDLT, box_name)
+    end
+
+    def delete!
+      machine_name = @redis.spop(PDLT)
+      delete_helper(machine_name) if machine_name
     end
 
     def pool_count
       @redis.smembers(AVAIL).count
     end
 
-    def error(msg = 'error')
+    def error!(msg = 'error')
       @redis.set(ERR, msg)
     end
 
@@ -58,11 +68,17 @@ module PoolsClosed
       @redis.get(ERR)
     end
 
-    private
-
     def generate_machinename
       t = Time.now
       "pool#{t.month}#{t.day}#{Faker::Lorem.characters(7)}"
+    end
+
+    def delete_helper(box_name)
+      if @jobs.delete_machine(box_name) == 'succeeded'
+        @redis.sadd(DLTD, box_name)
+      else
+        @redis.sadd(QTINE, box_name)
+      end
     end
   end
 end

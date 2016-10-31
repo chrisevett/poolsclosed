@@ -22,11 +22,23 @@ module PoolsClosed
     end
 
     def pool_check
-      if @machines.quarantine_count < @cnf['quarantine_limit']
-        @machines.add if @machines.pool_count < @cnf['pool_size']
-      else
-        @machines.error('Quarantine count is over the limit')
-      end
+      @machines.add! if should_add?
+      @machines.delete! if should_delete?
+      @machines.error!('Quarantine count is over the limit') unless healthy?
+    end
+
+    def should_add?
+      (@machines.pending_deletions < @cnf['quarantine_limit']) &&
+        healthy? &&
+        (@machines.pool_count < @cnf['pool_size'])
+    end
+
+    def should_delete?
+      (@machines.pending_deletions > 0) && healthy?
+    end
+
+    def healthy?
+      @machines.quarantine_count < @cnf['quarantine_limit']
     end
   end
 end

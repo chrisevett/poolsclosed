@@ -22,14 +22,14 @@ set :environment, cnf['environment']
 
 get '/machine' do
   response = {}
-  response[:machineRelease] = machines.yield
+  response[:machineRelease] = machines.yield!
   response.to_json
 end
 
 delete '/machine' do
   params['machineName']
   response = {}
-  response[:machineDelete] = machines.delete(params['machineName'])
+  response[:machineDelete] = machines.queue_delete!(params['machineName'])
   response.to_json
 end
 
