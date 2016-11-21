@@ -4,6 +4,7 @@ module PoolsClosed
   # starts a thread which will poll redis for an instance count
   class Poller
     attr_reader :thread
+    attr_accessor :mode
 
     def initialize(cnf, machines)
       @cnf = cnf
@@ -37,15 +38,14 @@ module PoolsClosed
 
     def should_delete?
       (@machines.pending_deletions > 0) &&
-        healthy? ||
-        @mode == 'drain'
+        healthy?
     end
 
     def healthy?
       @machines.quarantine_count < @cnf['quarantine_limit']
     end
 
-    def mode!(mode)
+    def mode_set!(mode)
       if mode == 'fill'
         @mode = mode
       elsif mode == 'drain'

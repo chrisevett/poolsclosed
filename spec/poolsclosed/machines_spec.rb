@@ -105,6 +105,36 @@ describe PoolsClosed::Machines do
     end
   end
 
+  context 'drain!' do
+    it 'moves any machines in AVAIL to PDLT' do
+      @redis_instance.sadd('poolsclosed_availmachines', 'pool001')
+      @redis_instance.sadd('poolsclosed_availmachines', 'pool002')
+      @redis_instance.sadd('poolsclosed_availmachines', 'pool003')
+
+      machines.drain!
+
+      avail_result = @redis_instance.spop('poolsclosed_availmachines')
+      pdlt_result1 = @redis_instance.spop('poolsclosed_deletepending')
+      pdlt_result2 = @redis_instance.spop('poolsclosed_deletepending')
+      pdlt_result3 = @redis_instance.spop('poolsclosed_deletepending')
+
+      expect(pdlt_result1).to eq('pool003')
+      expect(pdlt_result2).to eq('pool002')
+      expect(pdlt_result3).to eq('pool001')
+      expect(avail_result).to be_nil
+    end
+
+    it 'should not blow up when AVAIL is empty' do
+      machines.drain!
+
+      avail_result = @redis_instance.spop('poolsclosed_availmachines')
+      pdlt_result = @redis_instance.spop('poolsclosed_deletepending')
+
+      expect(avail_result).to be_nil
+      expect(pdlt_result).to be_nil
+    end
+  end
+
   context 'yield!' do
     it 'returns a value that exists in redis' do
       @redis_instance.sadd('poolsclosed_availmachines', 'pool1236')

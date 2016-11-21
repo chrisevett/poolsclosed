@@ -57,7 +57,7 @@ module PoolsClosed
     end
 
     def drain!
-      @redis.smember(AVAIL).each do |machine|
+      @redis.smembers(AVAIL).each do |machine|
         @redis.srem(AVAIL, machine)
         @redis.sadd(PDLT, machine)
       end
