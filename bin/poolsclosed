@@ -15,7 +15,7 @@ rescue StandardError
 end
 
 machines = PoolsClosed::Machines.new(cnf)
-PoolsClosed::Poller.new(cnf, machines)
+poller = PoolsClosed::Poller.new(cnf, machines)
 
 set :port, cnf['sinatra_port']
 set :environment, cnf['environment']
@@ -44,3 +44,11 @@ get '/quarantines' do
   response[:quarantines] = machines.quarantine_count
   response.to_json
 end
+
+post '/mode' do
+  params['modeValue']
+  response = {}
+  response[:mode] = poller.mode!(params['modeValue'])
+  response.to_json
+end
+

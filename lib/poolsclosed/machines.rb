@@ -56,6 +56,13 @@ module PoolsClosed
       delete_helper(machine_name) if machine_name
     end
 
+    def drain!
+      @redis.smembers(AVAIL).each do |machine|
+        @redis.srem(AVAIL, machine)
+        @redis.sadd(PDLT, machine)
+      end
+    end
+
     def pool_count
       @redis.smembers(AVAIL).count
     end
