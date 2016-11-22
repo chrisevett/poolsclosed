@@ -16,8 +16,8 @@ describe 'Poller' do
       allow(@machines).to receive(:quarantine_count).and_return(0)
       allow(@machines).to receive(:pool_count).and_return(0)
       allow(@machines).to receive(:pending_deletions).and_return(0)
-      
-      expect(@poller.thread).to_not be_nil      
+
+      expect(@poller.thread).to_not be_nil
     end
 
     it 'starts in fill mode' do
@@ -115,11 +115,11 @@ describe 'Poller' do
     it 'should not update mode when given invalid parameter' do
       @poller.mode = 'fill'
 
-      returnValue = @poller.mode_set!('help')
+      return_value = @poller.mode_set!('help')
 
       expect(@poller.mode).to be == 'fill'
       expect(@machines).to_not have_received(:drain!)
-      expect(returnValue).to be == 'Unexpected mode provided'
+      expect(return_value).to be == 'Unexpected mode provided'
     end
   end
 end
